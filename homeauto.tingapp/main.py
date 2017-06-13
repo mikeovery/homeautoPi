@@ -24,8 +24,8 @@ zone = ''
 col = 'silver'
 view = 1
 page = 1
-lasttouch = 61
-refreshinterval = 60
+lasttouch = 601
+refreshinterval = 600
 with open('pagedata.json') as data_file:
     pagedata = json.load(data_file)
 weatherdata = {}
