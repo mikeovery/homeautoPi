@@ -1,0 +1,169 @@
+{ "Pages":
+[
+    {
+        "name": "Games Room",
+        "layout": {
+        "A1": {"label": "Garden Light"},
+        "A2": {
+            "act": "on.gif",
+            "inact": "off.gif",
+            "on_action": "GET,http://10.0.0.161:8080/api/button/pressed,",
+            "off_action": "GET,http://10.0.0.161:8080/api/button/pressed,",
+            "data": "GET,http://10.0.0.161:8080/api/sensor/green/state,",
+            "actvalue": "str,{\n  \"state\": \"on\"\n}\n"
+            },
+        "A3": {"label": "Flood Light"},
+        "A4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=5.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}"
+            },
+        "B1": {"label": "Lights"},
+        "B2": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=6.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}"
+            },
+        "B3": {"label": "Light Sensor"},
+        "B4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=12.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}"
+            },
+        "C1": {"label": "Temp Monitor"},
+        "C2": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=14.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}"
+            },
+        "C3": {"label": "Door Temp"},
+        "C4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=15.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0} ºC"
+            },
+        "D1": {"ywthr": "img"},
+        "D2": {"ywthr": "hightemp", "syntax": "^ {0} ºC"},
+        "D3": {"ywthr": "nowtemp", "syntax": "> {0} ºC"},
+        "D4": {"ywthr": "lowtemp", "syntax": "v {0} ºC"}
+        }
+    },
+    {
+        "name": "House",
+        "layout" :{
+        "A1": {"label": "Hall"},
+        "A2": {
+            "act": "on.gif",
+            "inact": "off.gif",
+            "on_action": "GET,http://10.0.0.137:8080/api/sensor/hall/on,",
+            "off_action": "GET,http://10.0.0.137:8080/api/sensor/hall/off,",
+            "data": "GET,http://10.0.0.137:8080/api/sensor/hall/state,",
+            "actvalue": "int,1"
+            },
+        "A3": {"label": "Conserv"},
+        "A4": {
+            "act": "on.gif",
+            "inact": "off.gif",
+            "on_action": "GET,http://10.0.0.137:8080/api/sensor/conservatory/on,",
+            "off_action": "GET,http://10.0.0.137:8080/api/sensor/conservatory/off,",
+            "data": "GET,http://10.0.0.137:8080/api/sensor/conservatory/state,",
+            "actvalue": "int,1"
+            },
+        "B1": {"label": "Living"},
+        "B2": {
+            "act": "on.gif",
+            "inact": "off.gif",
+            "on_action": "GET,http://10.0.0.137:8080/api/sensor/living/on,",
+            "off_action": "GET,http://10.0.0.137:8080/api/sensor/living/off,",
+            "data": "GET,http://10.0.0.137:8080/api/sensor/living/state,",
+            "actvalue": "int,1"
+            },
+        "B3": {"label": "Outside"},
+        "B4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=18.10,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0} ºC"
+            },
+        "C1": {"label": "Kitchen"},
+        "C2": {
+            "act": "on.gif",
+            "inact": "off.gif",
+            "on_action": "GET,http://10.0.0.137:8080/api/sensor/kitchen/on,",
+            "off_action": "GET,http://10.0.0.137:8080/api/sensor/kitchen/off,",
+            "data": "GET,http://10.0.0.137:8080/api/sensor/kitchen/state,",
+            "actvalue": "int,1"
+            },
+        "C3": {"label": "Humidity"},
+        "C4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=18.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}%"
+            },
+        "D1": {"label": "Dining"},
+        "D2": {
+            "act": "on.gif",
+            "inact": "off.gif",
+            "on_action": "GET,http://10.0.0.137:8080/api/sensor/dining/on,",
+            "off_action": "GET,http://10.0.0.137:8080/api/sensor/dining/off,",
+            "data": "GET,http://10.0.0.137:8080/api/sensor/dining/state,",
+            "actvalue": "int,1"
+            },
+        "D3": {"label": "Indoor"},
+        "D4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=17.10,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0} ºC"}
+        }
+    },
+    {
+        "name": "Garage",
+        "layout": {
+        "A1": {"label": "Heater"},
+        "A2": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=7.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}"
+            },
+        "A3": {"label": "Temp Monitor"},
+        "A4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=8.8,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}"
+            },
+        "B1": {"label": "Temp"},
+        "B2": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=16.12,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0} ºC"
+            },
+        "B3": {"label": "Motion"},
+        "B4": {
+            "dispdata": "GET,http://10.0.0.55:51826/characteristics?id=16.10,", 
+            "headers": {"Authorization":"205-00-014"}, 
+            "jsonValue": "['characteristics'][0].get('value')",
+            "syntax": "{0}"
+            },
+        "C1": {"act": "empty.gif"},
+        "C2": {"act": "empty.gif"},
+        "C3": {"act": "empty.gif"},
+        "C4": {"act": "empty.gif"},
+        "D1": {"act": "empty.gif"},
+        "D2": {"act": "empty.gif"},
+        "D3": {"act": "empty.gif"},
+        "D4": {"act": "empty.gif"}
+        }
+    }
+],
+"yahooweather": "GET,https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22Southend%22)%20and%20u=%22c%22&format=json"
+}
