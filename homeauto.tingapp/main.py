@@ -24,8 +24,8 @@ zone = ''
 col = 'silver'
 view = 1
 page = 1
-lasttouch = 601
-refreshinterval = 600
+lasttouch = 0
+refreshinterval = 300
 with open('pagedata.json') as data_file:
     pagedata = json.load(data_file)
 weatherdata = {}
@@ -146,16 +146,26 @@ def midleftbutton():
 
 def midrightbutton():
     global page
-    if page > 1:
-        page = page - 1
+    global lasttouch
+    global refreshinterval
+    if lasttouch > refreshinterval:
         pane()
+    else:
+        if page > 1:
+            page = page - 1
+            pane()
 
 def rightbutton():
     global page
     global maxpage
-    if page < maxpage:
-        page = page + 1
+    global lasttouch
+    global refreshinterval
+    if lasttouch > refreshinterval:
         pane()
+    else:
+        if page < maxpage:
+            page = page + 1
+            pane()
     
 def pane():
     global col
@@ -328,13 +338,41 @@ def addLabel(x,y,sLabel):
     screen.image('green_label.gif', xy=(x,y), align='topleft')
     screen.text(sLabel, xy=((x+40),(y+25)), color='black', font_size=fontSize, align='center')
 
+def showclock():
+    screen.fill(color='black')
+    curTime = time.localtime()
+    iHour = curTime.tm_hour
+    iMin = curTime.tm_min
+    iSec = curTime.tm_sec
+    sHour = ""
+    sMin = ""
+    sSec = ""
+    sDay = pagedata.get('daynames')[curTime.tm_wday]
+    sMon = pagedata.get('monthnames')[curTime.tm_mon - 1]
+    dayStr = str(curTime.tm_mday) + " " + sMon  + " " + str(curTime.tm_year)
+    if (iHour > 12):
+        iHour = iHour - 12
+    if (iHour < 10):
+        sHour = "0"
+    sHour = sHour + str(iHour)
+    if (iMin < 10):
+        sMin = "0"
+    sMin = sMin + str(iMin)
+    if (iSec < 10):
+        sSec = "0"
+    sSec = sSec + str(iSec)
+    strTime = "\t\t\t\t\t\t" +  sDay + "\n" + dayStr + "\n\t\t\t" + sHour + ":" + sMin + ":" + sSec
+    screen.text(strTime, xy=(0,iSec), color='blue', font_size=50, align='topleft')
+
 @every (seconds=1)
 def init():
     global lasttouch
     global refreshinterval
     if lasttouch > refreshinterval:
-        pane()
-    lasttouch = lasttouch + 1
+        showclock()
+    else:
+        lasttouch = lasttouch + 1
     
 init()
+pane()
 tingbot.run()
