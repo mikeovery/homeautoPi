@@ -30,6 +30,7 @@ with open('pagedata.json') as data_file:
     pagedata = json.load(data_file)
 weatherdata = {}
 maxpage = len(pagedata['Pages'])
+refreshinterval = int(pagedata.get('refreshIntervalSeconds'))
 
 @left_button.press
 def pressl():
@@ -364,6 +365,29 @@ def showclock():
     strTime = "\t\t\t\t\t\t" +  sDay + "\n" + dayStr + "\n\t\t\t" + sHour + ":" + sMin + ":" + sSec
     screen.text(strTime, xy=(0,iSec), color='blue', font_size=50, align='topleft')
 
+def showTime():
+    curTime = time.localtime()
+    iHour = curTime.tm_hour
+    iMin = curTime.tm_min
+    iSec = curTime.tm_sec
+    sHour = ""
+    sMin = ""
+    sSec = ""
+    if (iHour > 12):
+        iHour = iHour - 12
+    if (iHour < 10):
+        sHour = "0"
+    sHour = sHour + str(iHour)
+    if (iMin < 10):
+        sMin = "0"
+    sMin = sMin + str(iMin)
+    if (iSec < 10):
+        sSec = "0"
+    sSec = sSec + str(iSec)
+    strTime =  sHour + ":" + sMin + ":" + sSec
+    screen.rectangle(xy=(0,0), size=(64,8), color='silver', align='topleft')
+    screen.text(strTime,xy=(0,0), align='topleft',font_size=8, color='black')
+
 @every (seconds=1)
 def init():
     global lasttouch
@@ -372,6 +396,10 @@ def init():
         showclock()
     else:
         lasttouch = lasttouch + 1
+        countdown = refreshinterval - lasttouch
+        showTime()
+        #screen.rectangle(xy=(0,0), size=(24,8), color='silver', align='topleft')
+        #screen.text(str(countdown),xy=(0,0), align='topleft',font_size=8, color='black')
     
 init()
 pane()
