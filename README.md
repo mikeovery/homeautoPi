@@ -17,9 +17,9 @@ The tile supports interaction
 
 **act**: tile image to display for active  
 **inact**: tile image to diaplay for inactive  
-**on_action**: HTTP method and URL for the action to perform to enable   
-**off_action**: HTTP method and URL for the action to perform to disable   
-**data**: HTTP method and URL to get the current state data  
+**on_action**: HTTP method, URL and data comma separated to request the activity to perform to enable   
+**off_action**: HTTP method, URL and data comma separated to request the activity to perform to disable   
+**data**: HTTP method, URL and data comma separated to get the current state data  
 **actvalue**: type and value for the active state  
 
 e.g.
@@ -35,7 +35,7 @@ e.g.
 ## Data Tile
 The tile supports data displays
 
-**dispdata**: HTTP method and URL to get the current state data  
+**dispdata**: HTTP method, URL and data comma separated to get the current state data  
 **headers**: HTTP headers to pass if the url requires them  
 **jsonValue**: json location for data retreival  
 **syntax**: display string to use where {0} is the value to display  
