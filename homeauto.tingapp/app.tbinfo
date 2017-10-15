@@ -1,4 +1,9 @@
 {
-    "name": "",
-    "author": ""
+    "name": "homeauto",
+    "author": "Mike Overy",
+    "caption": "Web Page Home Automation Controller",
+    "version": "0.1",
+    "twitter": "",
+    "website": "",
+    "background_color": "1db0e9"
 }

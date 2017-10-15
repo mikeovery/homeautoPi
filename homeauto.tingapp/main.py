@@ -12,7 +12,6 @@ import requests
 import json
 import time
 
-global col
 global page
 global maxpage
 global pagedata
@@ -20,16 +19,19 @@ global zone
 global weatherdata
 global lasttouch
 global refreshinterval
+global weatherRefresh
+global weatherTicks
 zone = ''
-col = 'silver'
 view = 1
 page = 1
 lasttouch = 0
-refreshinterval = 300
 with open('pagedata.json') as data_file:
     pagedata = json.load(data_file)
 weatherdata = {}
 maxpage = len(pagedata['Pages'])
+refreshinterval = int(pagedata.get('refreshIntervalSeconds'))
+weatherRefresh = int(pagedata.get('yahooweatherRefresh'))
+weatherTicks = weatherRefresh
 
 @left_button.press
 def pressl():
@@ -149,11 +151,13 @@ def midrightbutton():
     global lasttouch
     global refreshinterval
     if lasttouch > refreshinterval:
-        pane()
+        page = page
     else:
         if page > 1:
             page = page - 1
-            pane()
+        else:
+            page = maxpage
+    pane()
 
 def rightbutton():
     global page
@@ -161,41 +165,40 @@ def rightbutton():
     global lasttouch
     global refreshinterval
     if lasttouch > refreshinterval:
-        pane()
+        page = page
     else:
         if page < maxpage:
             page = page + 1
-            pane()
+        else:
+            page = 1
+    pane()
     
 def pane():
-    global col
     global page
-    global weatherdata
     global lasttouch
     strName = pagedata['Pages'][(page-1)]['name']
     
-    screen.fill(color=col)
+    screen.fill(color='silver')
     screen.text('',color='blue')
-    screen.rectangle(xy=(197,0), size=(124,35), color='white', align='topleft')
+    screen.rectangle(xy=(197,0), size=(124,35), color='silver', align='topleft')
     screen.text(str(page), xy=(250,0), color='black', font_size=30, align='topleft')
     screen.rectangle(xy=(0,36), size=(320,2), color='navy', align='topleft')
     screen.rectangle(xy=(195,0), size=(2,36), color='navy', align='topleft')
     screen.text(strName, xy=(98,18), color='red', font_size=20, align='center')
     if page > 1:
-        screen.image('green_left.gif', xy=(208,3), align='topleft')
+        screen.image('green-left.png', xy=(208,3), align='topleft')
     else:
-        screen.image('grey_left.gif', xy=(208,3), align='topleft')
+        screen.image('grey-left.png', xy=(208,3), align='topleft')
     if page < maxpage: 
-        screen.image('green_right.gif', xy=(278,3), align='topleft')
+        screen.image('green-right.png', xy=(278,3), align='topleft')
     else:
-        screen.image('grey_right.gif', xy=(278,3), align='topleft')
+        screen.image('grey-right.png', xy=(278,3), align='topleft')
     drawGrid()
-    weatherdata = {}
     lasttouch = 0
 
 def drawGrid():
     jsdata = pagedata['Pages'][(page-1)]['layout']
-    screen.rectangle(xy=(0,40), size=(320,200), color='silver', align='topleft')
+    screen.rectangle(xy=(0,40), size=(320,200), color='white', align='topleft')
     drawItem(0,40,jsdata['A1'])
     drawItem(0,90,jsdata['A2'])
     drawItem(0,140,jsdata['A3'])
@@ -214,7 +217,6 @@ def drawGrid():
     drawItem(240,190,jsdata['D4'])
 
 def drawItem(x,y,jsdata):
-    global weatherdata
     procitem = 0
     if jsdata.get('label'):
         func_label(x,y,jsdata)
@@ -226,8 +228,6 @@ def drawItem(x,y,jsdata):
         func_dispdata(x,y,jsdata)
         procitem = 1
     if jsdata.get('ywthr'):
-        if len(weatherdata) == 0: 
-            weatherdata = (webRequest(pagedata['yahooweather'], weatherdata)).json()
         func_ywthr(x,y,jsdata)
         procitem = 1
     if (procitem == 0):
@@ -258,10 +258,10 @@ def func_dispdata(x,y,jsdata):
     dispval = jsdata.get('syntax').replace('{0}', str(val))
     screen.rectangle(xy=(x,y), size=(80,50), color='white', align='topleft')
     if dispval == "True":
-        screen.image('on.gif', xy=(x,y), align='topleft')
+        screen.image('on.png', xy=(x,y), align='topleft')
     else:
         if dispval == "False":
-            screen.image('off.gif', xy=(x,y), align='topleft')
+            screen.image('off.png', xy=(x,y), align='topleft')
         else:
             screen.text(dispval, xy=((x+40),(y+25)), color='black', font_size=18, align='center')
 
@@ -331,11 +331,11 @@ def zoneaction(setZone):
         drawGrid()
 
 def addLabel(x,y,sLabel):
-    fontSize = 16
+    fontSize = 19
     if len(sLabel) > 8:
         fontSize = 12 - int( (len(sLabel) -8 ) / 2)
-    screen.rectangle(xy=(x,y), size=(80,50), color='silver', align='topleft')
-    screen.image('green_label.gif', xy=(x,y), align='topleft')
+    screen.rectangle(xy=(x,y), size=(80,50), color='white', align='topleft')
+    screen.image('Label.png', xy=(x,y), align='topleft')
     screen.text(sLabel, xy=((x+40),(y+25)), color='black', font_size=fontSize, align='center')
 
 def showclock():
@@ -346,33 +346,37 @@ def showclock():
     iSec = curTime.tm_sec
     sHour = ""
     sMin = ""
-    sSec = ""
     sDay = pagedata.get('daynames')[curTime.tm_wday]
     sMon = pagedata.get('monthnames')[curTime.tm_mon - 1]
-    dayStr = str(curTime.tm_mday) + " " + sMon  + " " + str(curTime.tm_year)
+    dayStr = str(curTime.tm_mday) + " " + sMon  + " " + str((curTime.tm_year-2000))
     if (iHour > 12):
         iHour = iHour - 12
-    if (iHour < 10):
-        sHour = "0"
     sHour = sHour + str(iHour)
     if (iMin < 10):
         sMin = "0"
     sMin = sMin + str(iMin)
-    if (iSec < 10):
-        sSec = "0"
-    sSec = sSec + str(iSec)
-    strTime = "\t\t\t\t\t\t" +  sDay + "\n" + dayStr + "\n\t\t\t" + sHour + ":" + sMin + ":" + sSec
-    screen.text(strTime, xy=(0,iSec), color='blue', font_size=50, align='topleft')
+    strTime = "\t\t\t\t\t\t" +  sDay + "\n\t\t" + dayStr + "\n\t\t\t\t\t" + sHour + ":" + sMin
+    offset = iMin
+    if (iMin > 30):
+        offset = 60 - iMin
+    screen.text(strTime, xy=(0,offset), color='blue', font_size=50, align='topleft')
 
-@every (seconds=1)
+@every (seconds=30)
 def init():
     global lasttouch
     global refreshinterval
+    global weatherRefresh
+    global weatherTicks
+    global weatherdata
+    weatherTicks = weatherTicks + 30
+    if  weatherTicks > weatherRefresh:
+        weatherdata = (webRequest(pagedata['yahooweather'], weatherdata)).json()
+        weatherTicks = 0
     if lasttouch > refreshinterval:
         showclock()
     else:
-        lasttouch = lasttouch + 1
-    
+        lasttouch = lasttouch + 30
+
 init()
 pane()
 tingbot.run()
