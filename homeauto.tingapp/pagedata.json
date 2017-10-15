@@ -17,7 +17,7 @@
         "C4": {"act": "empty.gif"},
         "D1": {"ywthr": "img"},
         "D2": {"ywthr": "hightemp", "syntax": "^ {0} ºC"},
-        "D3": {"ywthr": "nowtemp", "syntax": "> {0} ºC"},
+        "D3": {"ywthr": "nowtemp", "syntax": "» {0} ºC"},
         "D4": {"ywthr": "lowtemp", "syntax": "v {0} ºC"}
         }
     },
@@ -38,12 +38,13 @@
         "C4": {"act": "empty.gif"},
         "D1": {"ywthr": "img"},
         "D2": {"ywthr": "hightemp", "syntax": "^ {0} ºC"},
-        "D3": {"ywthr": "nowtemp", "syntax": "> {0} ºC"},
+        "D3": {"ywthr": "nowtemp", "syntax": "» {0} ºC"},
         "D4": {"ywthr": "lowtemp", "syntax": "v {0} ºC"}
         }
     }
 ],
 "yahooweather": "GET,https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22Southend%22)%20and%20u=%22c%22&format=json",
+"yahooweatherRefresh" : 3600,
 "daynames": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
 "monthnames": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 "refreshIntervalSeconds": 300
