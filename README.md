@@ -12,6 +12,9 @@ button - on / off functionality
 image - small icon e.g. for weather
 ```
 
+## Sample
+![alt text](https://github.com/mikeovery/homeautoPi/raw/master/homeauto.tingapp/sample.png "My Config")
+
 ## Tile Button
 The tile supports interaction 
 
